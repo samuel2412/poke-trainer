@@ -25,13 +25,14 @@ export default class Home extends Component {
 
     getId() {
         var novosIds = [];
+       // (('types[1].type.name' in this.state.pokemon) ? this.state.pokemon.types[1].type.name : 'lol')
         this.state.pokemons.map(pokemon => {
-            if (typeof pokemon.url !== 'undefined') {
+            if ('url' in pokemon) {
                 const res = pokemon.url.split("/");
                 novosIds.push(res[6]);
             }
         });
-        console.log(novosIds)
+        //console.log(novosIds)
         return novosIds;
 
         //console.log(res[6])
@@ -44,7 +45,7 @@ export default class Home extends Component {
             <div>
                 <div className="banner">
                     <h1 className="banner-head">
-                       Bem-vindo.
+                       Poke-Trainer
                     </h1>
                 </div>
 
