@@ -18,12 +18,7 @@ export default class App extends Component {
           </ul>
         </div>
 
-        <div className="banner">
-          <h1 className="banner-head">
-            Simple Pricing.<br></br>
-            Try before you buy.
-      </h1>
-        </div>
+       
 
         <div className="l-content">
             <Home/>

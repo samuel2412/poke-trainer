@@ -5,7 +5,8 @@ export default class Card extends Component {
 
     constructor(){
         super();
-        this.state = { pokemon: [{}] };
+        this.state = { pokemon: [{}],assets:'' };
+        
     }
 
     componentDidMount(){
@@ -13,20 +14,26 @@ export default class Card extends Component {
     }
 
     loadPokemon = async () =>{
-        
-        //console.log(`/pokemon/${ this.props.pokeName }`)
         const response = await PokeAPI.get(`/pokemon/${ this.props.pokeId }`);
-        //console.log(response.data)
-        this.setState({ pokemon: response.data });
+      
+        this.setState({ pokemon: response.data, 
+        assets: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${ this.setAssets(this.props.pokeId, 3) }.png` });
     }
-    //<img className="pure-img" src=" https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png" />
+    setAssets( n, width, z){
+            z = z || '0';
+            n = n + '';
+            return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+                    
+    }
+
+
     render() {
         return (
             <div className="pure-u-1 pure-u-md-1-4">
                 <div className="pricing-table pricing-table-biz pricing-table-selected">
                     <div className="pricing-table-header">
                         <h2>#{ this.state.pokemon.id } { this.state.pokemon.name }</h2>
-
+                        <img className="pure-img" src={ this.state.assets } />
                         <span className="pricing-table-price">
                             $25 <span>per month</span>
                         </span>

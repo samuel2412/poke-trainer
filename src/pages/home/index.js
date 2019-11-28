@@ -42,6 +42,12 @@ export default class Home extends Component {
     render() {
         return (
             <div>
+                <div className="banner">
+                    <h1 className="banner-head">
+                       Bem-vindo.
+                    </h1>
+                </div>
+
 
                 <div className="pricing-tables pure-g">
                     {this.state.ids.map(index => (
