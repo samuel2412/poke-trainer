@@ -7,45 +7,51 @@ export default class Home extends Component {
 
     constructor() {
         super();
-        this.state = { pokemons: [{}], ids: [] };
+        this.state = { pokemons: [{}], ids: [], nextURL: '', prevURL: '' };
     }
 
     componentDidMount() {
         this.loadPokemons();
     }
 
-    loadPokemons = async () => {
-        const response = await PokeAPI.get('/pokemon');
+    loadPokemons = async (url = 'https://pokeapi.co/api/v2/pokemon') => {
+        const response = await PokeAPI.get(url);
         this.setState({ pokemons: response.data.results });
 
         const ids = this.getId();
-        this.setState({ ids });
+        this.setState({ ids, nextURL: response.data.next, prevURL: response.data.previous });
+
 
     }
 
+
     getId() {
         var novosIds = [];
-       // (('types[1].type.name' in this.state.pokemon) ? this.state.pokemon.types[1].type.name : 'lol')
-        this.state.pokemons.map(pokemon => {
+        //('types[1].type.name' in this.state.pokemon) ? this.state.pokemon.types[1].type.name : 'lol')
+        //array.map(function(currentValue, index, arr), thisValue)
+        this.state.pokemons.map(function (pokemon, index) {
             if ('url' in pokemon) {
                 const res = pokemon.url.split("/");
                 novosIds.push(res[6]);
             }
         });
-        //console.log(novosIds)
         return novosIds;
-
-        //console.log(res[6])
-
+    }
+    prevPage = () => {
+        this.loadPokemons(this.state.prevURL);
+    }
+    nextPage = () => {
+        this.loadPokemons(this.state.nextURL);
     }
 
-
     render() {
+        //console.log(this.state.prevURL)
+        //console.log(this.state.nextURL)
         return (
             <div>
                 <div className="banner">
                     <h1 className="banner-head">
-                       Poke-Trainer
+                        Poke-Trainer
                     </h1>
                 </div>
 
@@ -53,13 +59,20 @@ export default class Home extends Component {
                 <div className="pricing-tables pure-g">
                     {this.state.ids.map(index => (
 
-                        <Card pokeId={index}></Card>
+                        <Card key={index} pokeId={index}></Card>
 
                     ))}
+
                 </div>
+                <div className="actions">
+                    <button disabled={this.state.prevURL == null} onClick={this.prevPage}>Previous</button>
+                    <button disabled={this.state.nextURL == null} onClick={this.nextPage}>Next</button>
+                </div>
+
 
                 <div className="information pure-g">
                     <div className="pure-u-1 pure-u-md-1-2">
+
                         <div className="l-box">
                             <h3 className="information-head">Get started today</h3>
                             <p>
