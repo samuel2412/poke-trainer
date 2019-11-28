@@ -9,18 +9,18 @@ export default class Card extends Component {
     }
 
     componentDidMount() {
+       // console.log(this.props.pokeName)
         this.loadPokemon();
-        this.setState({ assets: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${this.setAssets(this.props.pokeId, 3)}.png` })
-
     }
 
     loadPokemon = async () => {
-        const response = await PokeAPI.get(`https://pokeapi.co/api/v2/pokemon/${this.props.pokeId}`);
+        const response = await PokeAPI.get(`https://pokeapi.co/api/v2/pokemon/${this.props.pokeName}`);
         //console.log(response.data)
         const pokemon = response.data;
 
         this.setState({
-            pokemon
+            pokemon,
+            assets: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${this.setAssets(response.data.id, 3)}.png`
         });
     }
     setAssets(n, width, z) {
