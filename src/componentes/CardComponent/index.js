@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import PokeAPI from '../../services/pokeapi';
+import { Link } from 'react-router-dom';
 
 export default class Card extends Component {
 
     constructor() {
         super();
-        this.state = { pokemon: [{}], assets: '' };
+        this.state = { pokemon: [{}] };
     }
 
     componentDidMount() {
-       // console.log(this.props.pokeName)
+        // console.log(this.props.pokeName)
         this.loadPokemon();
     }
 
     loadPokemon = async () => {
         const response = await PokeAPI.get(`https://pokeapi.co/api/v2/pokemon/${this.props.pokeName}`);
-        //console.log(response.data)
+
         const pokemon = response.data;
 
         this.setState({
-            pokemon,
-            assets: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${this.setAssets(response.data.id, 3)}.png`
+            pokemon
         });
     }
     setAssets(n, width, z) {
@@ -32,20 +32,20 @@ export default class Card extends Component {
 
 
     render() {
-        //console.log(this.state.pokemon.stats)
-
+        //console.log(this.state.pokemon.id)
+        var title =  ( this.state.pokemon.id === undefined ? '' : `#${this.state.pokemon.id} ${this.state.pokemon.name}`);
         return (
             <div className="pure-u-1 pure-u-md-1-3">
-                
-                    <div className="pricing-table pricing-table-biz pricing-table-selected">
-                    <a href={this.state.pokemon.name}>
+
+                <div className="pricing-table pricing-table-biz pricing-table-selected">
+                    <Link to="/pokemon">
                         <div className="pricing-table-header">
-                            <h2>#{this.state.pokemon.id} {this.state.pokemon.name}</h2>
-                            <img className="pure-img" src={this.state.assets} alt="{this.state.pokemon.name}" />
+                            <h2>{title}</h2>
+                            <img className="pure-img" src={`/images/${this.setAssets(this.state.pokemon.id, 3)}.png`} alt={this.state.pokemon.name} />
                         </div>
-                        </a>
-                    </div>
-               
+                    </Link>
+                </div>
+
 
             </div>
         );

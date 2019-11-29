@@ -16,7 +16,7 @@ export default class Search extends Component {
             nextURL: ''
         }
     }
-
+//https://pokeapi.co/api/v2/pokemon/?offset=800&limit=20
     componentDidMount() {
         this.loadPokemons()
     }
@@ -59,7 +59,7 @@ export default class Search extends Component {
 
     handleInputChange = () => {
         this.setState({
-            query: this.search.value
+            query: this.search.value.toLowerCase()
         }, () => {
             if (this.state.query && this.state.query.length > 1) {
 
@@ -85,8 +85,9 @@ export default class Search extends Component {
                 </form>
                 <div className="pricing-tables pure-g">
                 {this.state.pokemons.map(pokemon => (
+                    <Card key={pokemon.name} pokeName={pokemon.name}></Card>
                     
-                    (pokemon.name === undefined ? '' : <Card key={pokemon.name} pokeName={pokemon.name}></Card>)
+                    // (pokemon.name === undefined ? '' : <Card key={pokemon.name} pokeName={pokemon.name}></Card>)
 
                 ))}
                 </div>

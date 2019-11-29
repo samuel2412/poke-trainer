@@ -6,7 +6,7 @@ export default class Home extends Component {
 
     constructor() {
         super();
-        this.state = {  };
+        this.state = {};
     }
 
     componentDidMount() {
@@ -15,6 +15,7 @@ export default class Home extends Component {
     render() {
         return (
             <div>
+
                 <div className="banner">
                     <h1 className="banner-head">
                         Poke-Trainer
@@ -23,14 +24,7 @@ export default class Home extends Component {
 
                 <div className="pricing-tables information">
 
-
-                   
-
-
-                        <SearchComponent></SearchComponent>
-
-                   
-                   
+                    <SearchComponent></SearchComponent>
 
 
                     <div className="information pure-g">
@@ -75,6 +69,8 @@ export default class Home extends Component {
                     </div>
                 </div>
             </div>
+
+
 
         );
     }
