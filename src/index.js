@@ -4,7 +4,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import Home from './pages/home/index'
-import Pokemon from './pages/pokemon/index'
+import Pokemon from './pages/pokemon/index';
+import PokemonDetalhe from './pages/pokemonDetalhe/index';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -13,7 +14,8 @@ ReactDOM.render(
             <Switch>
                 <App>
                     <Route exact path="/" component={ Home } />
-                    <Route path="/pokemon" component={ Pokemon } />
+                    <Route exact path="/pokemon" component={ Pokemon } />
+                    <Route path="/pokemon/:id" children={<PokemonDetalhe />} />
                 </App>
             </Switch>
         </BrowserRouter>

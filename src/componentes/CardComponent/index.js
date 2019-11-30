@@ -38,7 +38,7 @@ export default class Card extends Component {
             <div className="pure-u-1 pure-u-md-1-3">
 
                 <div className="pricing-table pricing-table-biz pricing-table-selected">
-                    <Link to="/pokemon">
+                    <Link to={`/pokemon/${this.state.pokemon.id}`} >
                         <div className="pricing-table-header">
                             <h2>{title}</h2>
                             <img className="pure-img" src={`/images/${this.setAssets(this.state.pokemon.id, 3)}.png`} alt={this.state.pokemon.name} />
