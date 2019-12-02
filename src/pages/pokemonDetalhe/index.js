@@ -57,9 +57,9 @@ export default class PokemonDetalhe extends Component {
             return (
                 <div>
                     {this.state.pokemon.stats.map(stat => (
-                      <div className="form-grup">
+                      <div key={stat.stat.name}>
                           
-                            <text>{stat.stat.name}</text>
+                            <span><b>{stat.stat.name}</b></span>
                             <ProgressBar id="progress" style={{height:'3em'}} now={stat.base_stat} label={`${stat.base_stat}`} max="255" min="1" />
                            
                       </div>
@@ -74,13 +74,13 @@ export default class PokemonDetalhe extends Component {
         if (this.state.pokemon.abilities === undefined || this.state.pokemon.abilities.length <= 0) {
             return '';
         } else {
-            console.log(this.state.pokemon.abilities)
+            //console.log(this.state.pokemon.abilities)
             return (
                 <div>
-                    <span>Abilities: </span>
+                    <span><b>Abilities: </b></span>
                     {this.state.pokemon.abilities.map((ability,index) => (
 
-                    <span>{(index=== (this.state.pokemon.abilities.length-1)) ? ability.ability.name+"." :  ability.ability.name+", "  }</span>
+                    <span key={ index }>{(index=== (this.state.pokemon.abilities.length-1)) ? ability.ability.name+"." :  ability.ability.name+", "  }</span>
 
                     ))}
                 

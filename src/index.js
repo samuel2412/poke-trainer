@@ -15,8 +15,7 @@ ReactDOM.render(
                 <App>
                     <Route exact path="/" component={ Home } />
                     <Route exact path="/pokemon" component={ Pokemon } />
-                    <Route path="/pokemon/:name" component={PokemonDetalhe} />
-                   
+                    <Route path="/pokemon/:name" component={ PokemonDetalhe } />
                 </App>
             </Switch>
         </BrowserRouter>

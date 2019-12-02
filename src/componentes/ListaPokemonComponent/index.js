@@ -70,19 +70,20 @@ export default class Search extends Component {
 
     return (
       <div>
-
+        
+        <label>Search: </label>
         <SearchPokemonExample></SearchPokemonExample>
 
         <div className="pricing-tables pure-g">
 
 
           {this.state.pokemons.map(pokemon => (
-            <div className="pure-u-1 pure-u-md-1-3">
+            <div key={pokemon.url} className="pure-u-1 pure-u-md-1-3" >
 
               <div className="pricing-table pricing-table-biz pricing-table-selected">
                 <Link to={`/pokemon/${pokemon.name}`} >
 
-                  <Card key={pokemon.name} pokeName={pokemon.name}></Card>
+                  <Card pokeName={pokemon.name}></Card>
                 </Link>
               </div>
 
