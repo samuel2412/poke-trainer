@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Card from '../CardComponent/index'
 import {
-  useAsync,
-  useAsyncAbortable,
-  useAsyncCallback,
-  UseAsyncReturn,
+  useAsync
 } from 'react-async-hook';
 
-import { ReactNode, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import { useState } from 'react';
 import useConstant from 'use-constant';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import PubSub from 'pubsub-js'
@@ -29,22 +28,46 @@ export default class Search extends Component {
   }
   //https://pokeapi.co/api/v2/pokemon/?offset=800&limit=20
   componentDidMount() {
-   //this.loadPokemons()
+    //this.loadPokemons()
     PubSub.subscribe('updatePokemons', function (topico, pokemons) {
-      console.log(pokemons);
-      this.setState({ pokemons ,nextURL: pokemons.next ,prevURL: pokemons.previous})
+
+      this.setState({ pokemons })
     }.bind(this));
+
+    PubSub.subscribe('updateNext', function (topico, nextURL) {
+      //console.log(nextURL)
+      this.setState({ nextURL })
+    }.bind(this));
+
+    PubSub.subscribe('updatePrev', function (topico, prevURL) {
+      // console.log(prevURL)
+      this.setState({ prevURL })
+    }.bind(this));
+
   }
 
   prevPage = () => {
     this.loadPokemons(this.state.prevURL);
   }
-  nextPage = () => {
+  nextPage = async () => {
     this.loadPokemons(this.state.nextURL);
   }
+  loadPokemons = async (url = `${API_URL}`) => {
+    //console.log(url)
+    await axios.get(url)
+      .then(({ data }) => {
+        this.setState({
+          pokemons: data.results, nextURL: data.next, prevURL: data.previous
+        })
+      })
+
+    //console.log(this.state.pokemons)
+  }
+
+
 
   render() {
-    
+
     return (
       <div>
 
@@ -52,10 +75,22 @@ export default class Search extends Component {
 
         <div className="pricing-tables pure-g">
 
-        {this.state.pokemons.map(pokemon => (
-              <Card key={pokemon.name} pokeName={pokemon.name}></Card>
-              // (pokemon.name === undefined ? '' : <Card key={pokemon.name} pokeName={pokemon.name}></Card>)
-            ))}
+
+          {this.state.pokemons.map(pokemon => (
+            <div className="pure-u-1 pure-u-md-1-3">
+
+              <div className="pricing-table pricing-table-biz pricing-table-selected">
+                <Link to={`/pokemon/${pokemon.name}`} >
+
+                  <Card key={pokemon.name} pokeName={pokemon.name}></Card>
+                </Link>
+              </div>
+
+
+            </div>
+            // (pokemon.name === undefined ? '' : <Card key={pokemon.name} pokeName={pokemon.name}></Card>)
+
+          ))}
 
 
         </div>
@@ -73,7 +108,7 @@ export default class Search extends Component {
 
 
 const UsesearchPokemon = () => {
- 
+
   // Handle the input text state
   const [inputText, setInputText] = useState('');
 
@@ -81,7 +116,7 @@ const UsesearchPokemon = () => {
   const debouncedsearchPokemon = useConstant(() =>
     AwesomeDebouncePromise(SearchPokemon, 600)
   );
-  
+
   const search = useAsync(
     async () => {
       if (inputText.length === 0) {
@@ -93,10 +128,10 @@ const UsesearchPokemon = () => {
     // Ensure a new request is made everytime the text changes (even if it's debounced)
     [inputText]
   );
- 
+
   // Return everything needed for the hook consumer
- 
- 
+
+
   return {
     inputText,
     setInputText,
@@ -106,7 +141,7 @@ const UsesearchPokemon = () => {
 
 
 const SearchPokemonExample = () => {
- 
+
   const { inputText, setInputText, search } = UsesearchPokemon();
   return (
     <div>
@@ -115,8 +150,8 @@ const SearchPokemonExample = () => {
         {search.loading && <div>...</div>}
         {search.error && <h3>Pokemon not found.</h3>}
 
-        
-       
+
+
       </div>
     </div>
   );
@@ -140,26 +175,29 @@ const SearchPokemonExample = () => {
         ))}
 
 */
-const SearchPokemon = async (text='') => {
+const SearchPokemon = async (text = '') => {
 
-  console.log(`${API_URL}${encodeURIComponent(text)}`)
+  //console.log(`${API_URL}${encodeURIComponent(text)}`)
   //const result = await fetch(`${API_URL}${encodeURIComponent(text)}`); 
-  const result = await axios.get(`${API_URL}${encodeURIComponent(text)}`);
+  const result = await axios.get(`${API_URL}${encodeURIComponent(text.toLowerCase())}`);
   if (result.status !== 200) {
     throw new Error('bad status = ' + result.status);
   }
-  
-  console.log(result.data)
+
+  //console.log(result.data)
 
   if (!(result.data === undefined)) {
 
 
-    if(!(result.data.results === undefined)){
-      
+    if (!(result.data.results === undefined)) {
+
       PubSub.publish('updatePokemons', result.data.results);
-      
-    }else{
-      PubSub.publish('updatePokemons', [result.data],null,null);
+      PubSub.publish('updateNext', result.data.next);
+      PubSub.publish('updatePrev', result.data.previous);
+    } else {
+      PubSub.publish('updatePokemons', [result.data]);
+      PubSub.publish('updateNext', null);
+      PubSub.publish('updatePrev', null);
     }
   }
   //return await result;

@@ -9,12 +9,6 @@ export default class Home extends Component {
         return (
             <div>
 
-                <div className="banner">
-                    <h1 className="banner-head">
-                        Poke-Trainer
-                </h1>
-                </div>
-
                 <div className="pricing-tables information">
                     <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla lobortis dictum orci, nec interdum urna rutrum quis. Nam viverra porttitor mauris, et pulvinar purus ultrices nec. Donec vestibulum tempus augue a venenatis. In hac habitasse platea dictumst. Morbi fermentum nunc vitae massa sagittis commodo. Donec aliquet rhoncus neque, ac cursus justo. Sed mollis est sit amet ornare suscipit. Curabitur et elit facilisis, commodo ex non, laoreet ipsum. Integer lectus elit, placerat laoreet sapien ac, auctor imperdiet mi. Praesent sollicitudin metus id elit tincidunt imperdiet. Aliquam ultricies elementum eros sed fermentum. Donec a iaculis arcu. Aliquam erat volutpat. Curabitur magna elit, luctus ut vestibulum nec, pharetra vitae quam. Suspendisse mi turpis, vulputate non orci quis, viverra tempus orci.
 

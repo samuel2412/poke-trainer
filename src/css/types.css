@@ -1,0 +1,102 @@
+
+.tipo {
+    color: #ffffff;
+    width: 10em;
+    font-weight: bold;
+    padding: 0.3em;
+    display: inline-block;
+    vertical-align: top;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+element.style {
+    color: #fff;
+}
+.stat-bar-fg {
+    z-index: 200000;
+    margin-left: 2px;
+   
+}
+.stat-bar-bg, .stat-bar-fg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+   
+}
+
+
+.normal.tipo {
+    background: #A8A878;
+}
+
+.fire.tipo {
+    background: #f08030;
+}
+
+.fighting.tipo {
+    background: #c03028;
+}
+
+.water.tipo {
+    background: #6890f0;
+}
+
+.flying.tipo {
+    background: #a890f0;
+}
+
+.grass.tipo {
+    background: #78c850;
+}
+
+.poison.tipo {
+    background: #a040a0;
+}
+
+.electric.tipo {
+    background: #f8d030;
+}
+
+.ground.tipo {
+    background: #e0c068;
+}
+
+.psychic.tipo {
+    background: #f85888;
+}
+
+.rock.tipo {
+    background: #b8a038;
+}
+
+.ice.tipo {
+    background: #98d8d8;
+}
+
+.bug.tipo {
+    background: #a8b820;
+}
+
+.dragon.tipo {
+    background: #7038f8;
+}
+
+.ghost.tipo {
+    background: #705898;
+}
+
+.dark.tipo {
+    background: #705848;
+}
+
+.steel.tipo {
+    background: #b8b8d0;
+}
+
+.fairy.tipo {
+    background: #ee99ac;
+}

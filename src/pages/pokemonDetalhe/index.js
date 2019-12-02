@@ -1,46 +1,126 @@
 import React, { Component } from 'react';
-import { useParams } from "react-router-dom";
+import Card from '../../componentes/CardComponent/index';
+import PubPub from 'pubsub-js';
+import '../../css/types.css';
+import ProgressBar from 'react-bootstrap/ProgressBar'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
+
+//<Card key={this.props.match.params.name} pokeName={this.props.match.params.name} ></Card>
 export default class PokemonDetalhe extends Component {
+    constructor() {
+        super();
+        this.state = { pokemon: {} }
 
+    }
+    componentDidMount() {
+        PubPub.subscribe('pokemon', function (topico, pokemon) {
+            this.setState({ pokemon })
+
+        }.bind(this))
+
+
+    }
+
+    getTypes() {
+        if (this.state.pokemon.types === undefined || this.state.pokemon.types.length <= 0) {
+            return '';
+        } else {
+            if (this.state.pokemon.types.length === 2) {
+
+                return (
+                    <div>
+                        <p className={`tipo ${this.state.pokemon.types[1].type.name}`}> {(this.state.pokemon.types[1].type.name ?
+                            this.state.pokemon.types[1].type.name : '')}</p>
+                        <p className={`tipo ${this.state.pokemon.types[0].type.name}`}> {(this.state.pokemon.types[0].type.name ?
+                            this.state.pokemon.types[0].type.name : '')}</p>
+
+                    </div>
+
+                )
+
+            } else {
+                return (<p className={`tipo ${this.state.pokemon.types[0].type.name}`}> {(this.state.pokemon.types[0].type.name ?
+                    this.state.pokemon.types[0].type.name : '')}</p>)
+
+            }
+        }
+    }
+
+    getStats() {
+        if (this.state.pokemon.stats === undefined || this.state.pokemon.stats.length <= 0) {
+            return '';
+        } else {
+
+            return (
+                <div>
+                    {this.state.pokemon.stats.map(stat => (
+                      <div className="form-grup">
+                          
+                            <text>{stat.stat.name}</text>
+                            <ProgressBar id="progress" style={{height:'3em'}} now={stat.base_stat} label={`${stat.base_stat}`} max="255" min="1" />
+                           
+                      </div>
+                    ))}
+
+                </div>
+            )
+
+        }
+    }
+    getAbilities(){
+        if (this.state.pokemon.abilities === undefined || this.state.pokemon.abilities.length <= 0) {
+            return '';
+        } else {
+            console.log(this.state.pokemon.abilities)
+            return (
+                <div>
+                    <span>Abilities: </span>
+                    {this.state.pokemon.abilities.map((ability,index) => (
+
+                    <span>{(index=== (this.state.pokemon.abilities.length-1)) ? ability.ability.name+"." :  ability.ability.name+", "  }</span>
+
+                    ))}
+                
+                </div>
+            )
+
+        }
+
+    }
 
 
     render() {
 
         return (
-            <div>
+            <div className="pricing-tables pure-g">
 
-                <div className="banner">
-                    <h1 className="banner-head">
-                        Poke-Trainer
-                </h1>
+                <div className="pure-u-1 pure-u-md-1-2">
+
+                    <div className="pricing-table pricing-table-free pricing-table-selected">
+
+                        <Card pokeName={this.props.match.params.name}></Card>
+
+                    </div>
+
+
                 </div>
+                <div className="pure-u-1 pure-u-md-1-2">
 
-                <div className="pricing-tables information">
-
-                  
-                    <Child></Child>
-
+                    <h3>Type: </h3>
+                    {this.getTypes()}
+                    <br></br>
+                     {this.getAbilities()}
+                    <br></br>
+                    {this.getStats()}
+                    
                 </div>
             </div>
-
-
 
         );
     }
 }
-function Child() {
-    // We can use the `useParams` hook here to access
-    // the dynamic pieces of the URL.
-    let { id } = useParams();
-    console.log(id)
 
-    return (
-        <div>
-            <h3>ID: {id}</h3>
-        </div>
-    );
-}
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PokeAPI from '../../services/pokeapi';
-import { Link } from 'react-router-dom';
+import PubSub from 'pubsub-js'
 
 export default class Card extends Component {
 
@@ -22,6 +22,8 @@ export default class Card extends Component {
         this.setState({
             pokemon
         });
+        //console.log(pokemon)
+        PubSub.publish('pokemon',pokemon)
     }
     setAssets(n, width, z) {
         z = z || '0';
@@ -35,19 +37,12 @@ export default class Card extends Component {
         //console.log(this.state.pokemon.id)
         var title =  ( this.state.pokemon.id === undefined ? '' : `#${this.state.pokemon.id} ${this.state.pokemon.name}`);
         return (
-            <div className="pure-u-1 pure-u-md-1-3">
-
-                <div className="pricing-table pricing-table-biz pricing-table-selected">
-                    <Link to={`/pokemon/${this.state.pokemon.id}`} >
+           
                         <div className="pricing-table-header">
                             <h2>{title}</h2>
                             <img className="pure-img" src={`/images/${this.setAssets(this.state.pokemon.id, 3)}.png`} alt={this.state.pokemon.name} />
                         </div>
-                    </Link>
-                </div>
-
-
-            </div>
+                   
         );
     }
 }

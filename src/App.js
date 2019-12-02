@@ -18,16 +18,20 @@ export default class App extends Component {
           </ul>
         </div>
 
-
+        <div className="banner">
+          <h1 className="banner-head">
+            Poke-Trainer
+                </h1>
+        </div>
 
         <div className="l-content">
-          
+
           {this.props.children}
 
         </div>
 
         <div className="footer l-box">
-          
+
         </div>
       </div>
     );

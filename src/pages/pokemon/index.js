@@ -9,12 +9,7 @@ export default class Pokemon extends Component {
         return (
             <div>
 
-                <div className="banner">
-                    <h1 className="banner-head">
-                        Poke-Trainer
-                </h1>
-                </div>
-
+               
                 <div className="pricing-tables information">
 
                     <ListaPokemonComponent></ListaPokemonComponent>
